@@ -8,4 +8,4 @@ export const removeClass=(el,className)=>{
     elem.classList.remove(className)
 }
 
-export const api_base_url = "http://localhost:3000"
+export const api_base_url = import.meta.env.VITE_API_URL;
