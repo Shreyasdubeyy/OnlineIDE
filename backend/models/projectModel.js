@@ -2,7 +2,6 @@ const mongoose = require("mongoose");
 
 // mongoose.connect('mongodb://localhost:27017/CapstoneDatabase');
 
-mongoose.connect('mongodb+srv://shreyas:easycode@easycode.02oop2d.mongodb.net/?retryWrites=true&w=majority');
 
 const projectSchema = new mongoose.Schema({
   title: String,
