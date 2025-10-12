@@ -13,7 +13,7 @@ var app = express();
 
 
 // ✅ Allow both local and hosted frontends
-const cors = require("cors");
+
 const allowedOrigins = [
   "http://localhost:5173",                     // local frontend
   "https://onlineide-frontend-5eyw.onrender.com" // deployed frontend
