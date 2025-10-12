@@ -13,23 +13,26 @@ var app = express();
 
 
 // ✅ Allow both local and hosted frontends
+const cors = require("cors");
 const allowedOrigins = [
-  "http://localhost:5173",                      // local frontend
+  "http://localhost:5173",                     // local frontend
   "https://onlineide-frontend-5eyw.onrender.com" // deployed frontend
 ];
 
 app.use(cors({
-  origin: function (origin, callback) {
-    // allow requests with no origin (like Postman or server-to-server)
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error("CORS not allowed for this origin"));
+  origin: function(origin, callback){
+    // allow requests with no origin (like Postman)
+    if(!origin) return callback(null, true);
+    if(allowedOrigins.indexOf(origin) === -1){
+      const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
+      return callback(new Error(msg), false);
     }
+    return callback(null, true);
   },
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  credentials: true
+  credentials: true, // if you need cookies/auth
+  methods: ["GET", "POST", "PUT", "DELETE"]
 }));
+
 
 
 
