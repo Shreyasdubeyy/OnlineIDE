@@ -10,13 +10,7 @@ const connectDb=require("../models/dbConnect")
 var app = require('../app');
 var debug = require('debug')('backend:server');
 var http = require('http');
-const cors = require("cors");
 
-app.use(cors({
-  origin: "https://onlineide-frontend-5eyw.onrender.com",  // your frontend Render URL
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  credentials: true
-}));
 /**
  * Get port from environment and store in Express.
  */

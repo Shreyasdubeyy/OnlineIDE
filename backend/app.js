@@ -10,6 +10,29 @@ var usersRouter = require('./routes/users');
 
 var app = express();
 
+
+
+// ✅ Allow both local and hosted frontends
+const allowedOrigins = [
+  "http://localhost:5173",                      // local frontend
+  "https://onlineide-frontend-5eyw.onrender.com" // deployed frontend
+];
+
+app.use(cors({
+  origin: function (origin, callback) {
+    // allow requests with no origin (like Postman or server-to-server)
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("CORS not allowed for this origin"));
+    }
+  },
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true
+}));
+
+
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -21,7 +44,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-app.use(cors())
+// app.use(cors())
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
