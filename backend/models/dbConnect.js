@@ -10,8 +10,10 @@
 
 
 // module.exports=connectDb()
+require('dotenv').config();
+
 const mongoose = require("mongoose");
-const url = 'mongodb+srv://shreyas:easycode@easycode.02oop2d.mongodb.net/?retryWrites=true&w=majority';
+const url = process.env.MONGO_URI
 
 // Create an async function to connect
 const connectDb = async () => {
