@@ -33,6 +33,11 @@ app.use(cors({
   methods: ["GET", "POST", "PUT", "DELETE"]
 }));
 
+app.options("*", cors({
+  origin: allowedOrigins,
+  credentials: true,
+  methods: ["GET","POST","PUT","DELETE"]
+}));
 
 
 
