@@ -1,9 +1,9 @@
 require('dotenv').config();
 const mongoose = require('mongoose');
 
-const mongoUri = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/codeIDE';
-console.log('Connecting to MongoDB at:', mongoUri);
+const mongoUri = process.env.MONGODB_URI;
 
+console.log('Connecting to MongoDB');
 mongoose.connect(mongoUri)
   .then(() => {
     console.log('MongoDB connected successfully');
