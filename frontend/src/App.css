@@ -1,0 +1,390 @@
+*{
+  margin: 0;
+  padding: 0;
+}
+
+body{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background: #0f172a;
+  color: #e2e8f0;
+  overflow-x: hidden;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+html{
+  overflow-x: hidden;
+}
+
+/* Proper Typography Scale */
+.text-xs { font-size: 0.75rem; line-height: 1.5; }
+.text-sm { font-size: 0.875rem; line-height: 1.5; }
+.text-base { font-size: 1rem; line-height: 1.6; }
+.text-lg { font-size: 1.125rem; line-height: 1.6; }
+.text-xl { font-size: 1.25rem; line-height: 1.5; }
+.text-2xl { font-size: 1.5rem; line-height: 1.4; }
+.text-3xl { font-size: 1.875rem; line-height: 1.3; }
+
+/* Text Color Utilities */
+.text-primary { color: #e2e8f0; }
+.text-secondary { color: #94a3b8; }
+.text-muted { color: #64748b; }
+.text-accent { color: #22d3ee; }
+
+/* Container System */
+.container-padding {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+@media (min-width: 640px) {
+  .container-padding {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container-padding {
+    padding-left: 5rem;
+    padding-right: 5rem;
+  }
+}
+
+/* Input System */
+.inputBox{
+  width: 100%;
+  background: rgba(30, 41, 59, 0.5);
+  backdrop-filter: blur(12px);
+  border: 1.5px solid rgba(148, 163, 184, 0.1);
+  border-radius: 0.75rem;
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+  transition: all 0.2s ease;
+}
+
+.inputBox:focus-within{
+  border-color: rgba(34, 211, 238, 0.5);
+  background: rgba(30, 41, 59, 0.7);
+  box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.1);
+}
+
+.inputBox input{
+  flex: 1;
+  padding: 0.75rem 1rem;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  color: #e2e8f0;
+  font-size: 0.875rem;
+  font-weight: 400;
+}
+
+.inputBox input::placeholder{
+  color: #64748b;
+  font-weight: 400;
+}
+
+/* Fix autofill styling */
+.inputBox input:-webkit-autofill,
+.inputBox input:-webkit-autofill:hover,
+.inputBox input:-webkit-autofill:focus {
+  -webkit-text-fill-color: #e2e8f0;
+  -webkit-box-shadow: 0 0 0px 1000px rgba(30, 41, 59, 0.7) inset;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+.lightMode .inputBox input:-webkit-autofill,
+.lightMode .inputBox input:-webkit-autofill:hover,
+.lightMode .inputBox input:-webkit-autofill:focus {
+  -webkit-text-fill-color: #0f172a !important;
+  -webkit-box-shadow: 0 0 0px 1000px rgba(255, 255, 255, 0.9) inset !important;
+}
+
+/* Button System */
+.btnBlue{
+  background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 0.75rem;
+  text-align: center;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 14px rgba(6, 182, 212, 0.3);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.btnBlue:hover{
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(6, 182, 212, 0.4);
+  background: linear-gradient(135deg, #0891b2 0%, #0e7490 100%);
+}
+
+.btnBlue:active{
+  transform: translateY(0);
+}
+
+.btnBlue:focus-visible{
+  outline: 2px solid #22d3ee;
+  outline-offset: 2px;
+}
+
+.btnSecondary{
+  background: rgba(30, 41, 59, 0.8);
+  color: #e2e8f0;
+  padding: 0.75rem 1.5rem;
+  border: 1.5px solid rgba(148, 163, 184, 0.2);
+  border-radius: 0.75rem;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.btnSecondary:hover{
+  background: rgba(30, 41, 59, 1);
+  border-color: rgba(148, 163, 184, 0.3);
+}
+
+.btnSecondary:focus-visible{
+  outline: 2px solid #22d3ee;
+  outline-offset: 2px;
+}
+
+/* Focus States for Interactive Elements */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid #22d3ee;
+  outline-offset: 2px;
+}
+
+/* Grid System - Responsive */
+.grid{
+  display: grid !important;
+  grid-template-columns: repeat(1, 1fr) !important;
+  gap: 1.25rem !important;
+}
+
+@media (min-width: 640px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr) !important;
+  }
+}
+
+@media (min-width: 1280px) {
+  .grid {
+    grid-template-columns: repeat(4, 1fr) !important;
+  }
+}
+
+/* Card System */
+.card-base {
+  background: rgba(30, 41, 59, 0.5);
+  backdrop-filter: blur(12px);
+  border: 1.5px solid rgba(148, 163, 184, 0.1);
+  border-radius: 1rem;
+  transition: all 0.2s ease;
+}
+
+.card-base:hover {
+  background: rgba(30, 41, 59, 0.7);
+  border-color: rgba(34, 211, 238, 0.3);
+  box-shadow: 0 8px 30px rgba(34, 211, 238, 0.1);
+}
+
+/* Light Mode Styles - Sky Blue Theme */
+.lightMode{
+  background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 50%, #e0f2fe 100%) !important;
+  color: #0c4a6e !important;
+}
+
+.lightMode .navbar,
+.lightMode .EditiorNavbar{
+  background: rgba(240, 249, 255, 0.95) !important;
+  backdrop-filter: blur(12px) !important;
+  border-bottom: 1.5px solid rgba(56, 189, 248, 0.2) !important;
+}
+
+.lightMode .navbar .links a,
+.lightMode .navbar button {
+  color: #075985 !important;
+}
+
+.lightMode .navbar .links a:hover {
+  color: #0284c7 !important;
+}
+
+.lightMode .tabs{
+  background: rgba(224, 242, 254, 0.95) !important;
+  backdrop-filter: blur(12px) !important;
+  border-bottom: 1.5px solid rgba(56, 189, 248, 0.2) !important;
+}
+
+.lightMode .tabs .tab{
+  background: rgba(240, 249, 255, 0.95) !important;
+  color: #075985 !important;
+  border: 1.5px solid rgba(125, 211, 252, 0.4) !important;
+}
+
+.lightMode .tabs .tab:hover{
+  background: rgba(186, 230, 253, 0.8) !important;
+  border-color: rgba(14, 165, 233, 0.6) !important;
+  color: #0369a1 !important;
+}
+
+.lightMode .tabs .tab.active{
+  background: rgba(186, 230, 253, 1) !important;
+  border-color: rgba(14, 165, 233, 0.7) !important;
+  color: #0369a1 !important;
+}
+
+.lightMode .btn{
+  background: rgba(240, 249, 255, 0.95) !important;
+  color: #075985 !important;
+  border: 1.5px solid rgba(125, 211, 252, 0.4) !important;
+}
+
+.lightMode .inputBox{
+  background: rgba(255, 255, 255, 0.9) !important;
+  border: 1.5px solid rgba(125, 211, 252, 0.4) !important;
+}
+
+.lightMode .inputBox:focus-within{
+  border-color: rgba(14, 165, 233, 0.6) !important;
+  background: rgba(255, 255, 255, 1) !important;
+  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2) !important;
+}
+
+.lightMode .inputBox input{
+  color: #0c4a6e !important;
+}
+
+.lightMode .inputBox input::placeholder{
+  color: #0369a1 !important;
+}
+
+.lightMode .card-base{
+  background: rgba(240, 249, 255, 0.9) !important;
+  border: 1.5px solid rgba(125, 211, 252, 0.4) !important;
+  color: #0c4a6e !important;
+}
+
+.lightMode .card-base:hover{
+  background: rgba(224, 242, 254, 1) !important;
+  border-color: rgba(56, 189, 248, 0.6) !important;
+  box-shadow: 0 8px 30px rgba(14, 165, 233, 0.15) !important;
+}
+
+.lightMode .card-base h3,
+.lightMode .card-base .text-primary {
+  color: #0c4a6e !important;
+}
+
+.lightMode .card-base .text-muted,
+.lightMode .card-base .text-secondary {
+  color: #075985 !important;
+}
+
+.lightMode .createModel,
+.lightMode .mainModel{
+  background: rgba(240, 249, 255, 0.98) !important;
+  backdrop-filter: blur(20px) !important;
+  border: 1.5px solid rgba(125, 211, 252, 0.5) !important;
+  color: #0c4a6e !important;
+}
+
+.lightMode .dropDownNavbar{
+  background: rgba(240, 249, 255, 0.98) !important;
+  backdrop-filter: blur(20px) !important;
+  border: 1.5px solid rgba(125, 211, 252, 0.5) !important;
+  color: #0c4a6e !important;
+}
+
+.lightMode .dropDownNavbar h3,
+.lightMode .dropDownNavbar span {
+  color: #0c4a6e !important;
+}
+
+.lightMode .dropDownNavbar i {
+  color: #075985 !important;
+}
+
+.lightMode .dropDownNavbar i:hover {
+  color: #0284c7 !important;
+}
+
+.lightMode .btnBlue{
+  background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%) !important;
+  box-shadow: 0 4px 14px rgba(14, 165, 233, 0.4) !important;
+  color: #ffffff !important;
+}
+
+.lightMode .btnBlue:hover{
+  background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%) !important;
+  box-shadow: 0 6px 20px rgba(14, 165, 233, 0.5) !important;
+}
+
+.lightMode .text-primary {
+  color: #0c4a6e !important;
+}
+
+.lightMode .text-secondary {
+  color: #075985 !important;
+}
+
+.lightMode .text-muted {
+  color: #075985 !important;
+}
+
+.lightMode .text-accent {
+  color: #0284c7 !important;
+}
+
+.lightMode h1,
+.lightMode h2,
+.lightMode h3,
+.lightMode h4,
+.lightMode h5,
+.lightMode h6 {
+  color: #0c4a6e !important;
+}
+
+.lightMode p {
+  color: #075985 !important;
+}
+
+/* Loading Spinner */
+.spinner {
+  border: 3px solid rgba(148, 163, 184, 0.2);
+  border-top: 3px solid #22d3ee;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
