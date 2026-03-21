@@ -11,4 +11,4 @@ export const removeClass = (el,className) => {
 };
 
 
-export const api_base_url = import.meta.env.VITE_API_BASE_URL || "http://localhost:3000"
+export const api_base_url = "https://shreyasdubeyide.onrender.com" || "http://localhost:3000"
