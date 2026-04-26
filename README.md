@@ -258,7 +258,7 @@ The theme is also applied as a CSS class (`lightMode`) on `document.body`, allow
 - `vercel.json` rewrites all routes to `/` so React Router handles client-side navigation (SPA fallback)
 - `VITE_API_BASE_URL` env var points to the live backend URL
 
-### Backend → Railway / Render
+### Backend → Render
 - `npm start` runs `node ./bin/www`
 - `PORT`, `MONGODB_URI`, `JWT_SECRET` set as environment variables
 - CORS is configured to allow only `localhost:5173` (dev) and `shreyaside.vercel.app` (prod)
