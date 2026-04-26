@@ -11,11 +11,11 @@ import Editior from './pages/Editior';
 import { useTheme } from './context/ThemeContext';
 
 const App = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("isLoggedIn"));
+  const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("isLoggedIn") === "true");
 
   useEffect(() => {
     const checkAuth = () => {
-      setIsLoggedIn(localStorage.getItem("isLoggedIn"));
+      setIsLoggedIn(localStorage.getItem("isLoggedIn") === "true");
     };
     window.addEventListener('storage', checkAuth);
     return () => window.removeEventListener('storage', checkAuth);
@@ -26,8 +26,8 @@ const App = () => {
       <BrowserRouter>
         <Routes>
           <Route path='/' element={isLoggedIn ? <Home /> : <Navigate to="/login"/>} />
-          <Route path='/signUp' element={<SignUp />} />
-          <Route path='/login' element={<Login />} />
+          <Route path='/signUp' element={isLoggedIn ? <Navigate to="/"/> : <SignUp />} />
+          <Route path='/login' element={isLoggedIn ? <Navigate to="/"/> : <Login />} />
           <Route path='/editior/:projectID' element={isLoggedIn ? <Editior /> : <Navigate to="/login"/>} />
           <Route path="*" element={isLoggedIn ? <NoPage />: <Navigate to="/login"/>} />
         </Routes>

@@ -21,18 +21,17 @@ const Editior = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [lastSaved, setLastSaved] = useState(null);
+  const [projectTitle, setProjectTitle] = useState("");
 
   const { projectID } = useParams();
   const navigate = useNavigate();
 
-  const run = () => {
-    const html = htmlCode;
-    const css = `<style>${cssCode}</style>`;
-    const js = `<script>${jsCode}</script>`;
+  const run = (html = htmlCode, css = cssCode, js = jsCode) => {
+    const cssStr = `<style>${css}</style>`;
+    const jsStr = `<script>${js}</script>`;
     const iframe = document.getElementById("iframe");
-
     if (iframe) {
-      iframe.srcdoc = html + css + js;
+      iframe.srcdoc = html + cssStr + jsStr;
     }
   };
 
@@ -44,7 +43,7 @@ const Editior = () => {
   }, [htmlCode, cssCode, jsCode]);
 
   useEffect(() => {
-    run();
+    run(htmlCode, cssCode, jsCode);
   }, [showFrame, isMobile, isExpanded]);
 
   useEffect(() => {
@@ -74,6 +73,7 @@ const Editior = () => {
           setHtmlCode(data.project.htmlCode || "<h1>Hello world</h1>");
           setCssCode(data.project.cssCode || "body { background-color: #f4f4f4; }");
           setJsCode(data.project.jsCode || "// some comment");
+          setProjectTitle(data.project.title || "");
         } else {
           toast.error("Failed to load project");
           navigate("/");
@@ -138,6 +138,8 @@ const Editior = () => {
     });
   };
 
+  useEffect(() => { setLastSaved(null); }, [htmlCode, cssCode, jsCode]);
+
   useEffect(() => {
     const handleKeyDown = (event) => {
       if (event.ctrlKey && event.key === 's') {
@@ -178,9 +180,10 @@ const Editior = () => {
         onDownload={downloadCode}
         onToggleView={() => setShowFrame(prev => !prev)}
         showFrame={showFrame}
+        projectTitle={projectTitle}
       />
       <div className="flex flex-col lg:flex-row min-h-[calc(100vh-72px)] overflow-hidden">
-        <div className={`${isEditorMode ? 'block' : 'hidden'} ${editorClass} h-full overflow-hidden`}>        
+        <div className={`${isEditorMode ? 'flex flex-col' : 'hidden'} ${editorClass} overflow-hidden`} style={{height: 'calc(100vh - 72px)'}}>        
           <div className="tabs flex flex-wrap items-center justify-between gap-2 w-full bg-[rgba(30,41,59,0.8)] backdrop-blur-xl border-b border-[rgba(148,163,184,0.1)] h-auto min-h-[56px] container-padding">
             <div className="tabs flex flex-wrap items-center gap-2">
               <div onClick={() => { setTab("html"); }} className={`tab cursor-pointer py-2 px-3 sm:px-4 bg-[rgba(30,41,59,0.6)] border border-[rgba(148,163,184,0.1)] text-xs sm:text-sm font-medium rounded-lg hover:bg-[rgba(34,211,238,0.1)] hover:border-[rgba(34,211,238,0.3)] hover:text-[#22d3ee] transition-all duration-200 ${tab === 'html' ? '!bg-[rgba(34,211,238,0.15)] !border-[rgba(34,211,238,0.4)] !text-[#22d3ee]' : 'text-[#94a3b8]'}`}>HTML</div>
@@ -192,7 +195,7 @@ const Editior = () => {
               <button 
                 onClick={saveProject}
                 disabled={isSaving}
-                className="hidden sm:flex items-center gap-2 px-3 py-1.5 bg-[rgba(34,211,238,0.1)] border border-[rgba(34,211,238,0.3)] text-[#22d3ee] rounded-lg text-xs font-medium hover:bg-[rgba(34,211,238,0.2)] transition-all duration-200 disabled:opacity-50"
+                className="flex items-center gap-2 px-3 py-1.5 bg-[rgba(34,211,238,0.1)] border border-[rgba(34,211,238,0.3)] text-[#22d3ee] rounded-lg text-xs font-medium hover:bg-[rgba(34,211,238,0.2)] transition-all duration-200 disabled:opacity-50"
               >
                 {isSaving ? (
                   <>
@@ -216,60 +219,36 @@ const Editior = () => {
             </div>
           </div>
 
-          {tab === "html" ? (
-            <Editor
-              onChange={(value) => {
-                setHtmlCode(value || "");
-              }}
-              height="calc(100vh - 128px)"
-              theme={isLightMode ? "vs-light" : "vs-dark"}
-              language="html"
-              value={htmlCode}
-              options={{
-                minimap: { enabled: false },
-                fontSize: 14,
-                lineNumbers: 'on',
-                scrollBeyondLastLine: false,
-                automaticLayout: true,
-              }}
-            />
-          ) : tab === "css" ? (
-            <Editor
-              onChange={(value) => {
-                setCssCode(value || "");
-              }}
-              height="calc(100vh - 128px)"
-              theme={isLightMode ? "vs-light" : "vs-dark"}
-              language="css"
-              value={cssCode}
-              options={{
-                minimap: { enabled: false },
-                fontSize: 14,
-                lineNumbers: 'on',
-                scrollBeyondLastLine: false,
-                wordWrap: 'on',
-                wrappingIndent: 'indent',
-                automaticLayout: true,
-              }}
-            />
-          ) : (
-            <Editor
-              onChange={(value) => {
-                setJsCode(value || "");
-              }}
-              height="calc(100vh - 128px)"
-              theme={isLightMode ? "vs-light" : "vs-dark"}
-              language="javascript"
-              value={jsCode}
-              options={{
-                minimap: { enabled: false },
-                fontSize: 14,
-                lineNumbers: 'on',
-                scrollBeyondLastLine: false,                wordWrap: 'on',
-                wrappingIndent: 'indent',                automaticLayout: true,
-              }}
-            />
-          )}
+          <div className="flex-1 overflow-hidden">
+            {tab === "html" ? (
+              <Editor
+                onChange={(value) => { setHtmlCode(value || ""); }}
+                height="100%"
+                theme={isLightMode ? "vs-light" : "vs-dark"}
+                language="html"
+                value={htmlCode}
+                options={{ minimap: { enabled: false }, fontSize: 14, lineNumbers: 'on', scrollBeyondLastLine: false, automaticLayout: true }}
+              />
+            ) : tab === "css" ? (
+              <Editor
+                onChange={(value) => { setCssCode(value || ""); }}
+                height="100%"
+                theme={isLightMode ? "vs-light" : "vs-dark"}
+                language="css"
+                value={cssCode}
+                options={{ minimap: { enabled: false }, fontSize: 14, lineNumbers: 'on', scrollBeyondLastLine: false, wordWrap: 'on', wrappingIndent: 'indent', automaticLayout: true }}
+              />
+            ) : (
+              <Editor
+                onChange={(value) => { setJsCode(value || ""); }}
+                height="100%"
+                theme={isLightMode ? "vs-light" : "vs-dark"}
+                language="javascript"
+                value={jsCode}
+                options={{ minimap: { enabled: false }, fontSize: 14, lineNumbers: 'on', scrollBeyondLastLine: false, wordWrap: 'on', wrappingIndent: 'indent', automaticLayout: true }}
+              />
+            )}
+          </div>
         </div>
 
         <div className={`${isPreviewMode ? 'block' : 'hidden'} ${previewClass}`}>

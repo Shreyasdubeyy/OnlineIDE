@@ -45,6 +45,8 @@ const Navbar = ({ isGridLayout, setIsGridLayout }) => {
       else {
         setError(data.message);
       }
+    }).catch(err => {
+      console.error(err);
     })
   }, [])
 
@@ -52,7 +54,7 @@ const Navbar = ({ isGridLayout, setIsGridLayout }) => {
     localStorage.removeItem("userId");
     localStorage.removeItem("token");
     localStorage.removeItem("isLoggedIn");
-    window.location.reload();
+    window.location.href = "/login";
   }
 
   return (
@@ -64,10 +66,6 @@ const Navbar = ({ isGridLayout, setIsGridLayout }) => {
         
         {/* Desktop Links */}
         <div className="hidden lg:flex items-center gap-8">
-          <Link to="/" className="text-sm font-medium text-[#94a3b8] hover:text-[#22d3ee] transition-colors duration-200">Home</Link>
-          <Link to="/about" className="text-sm font-medium text-[#94a3b8] hover:text-[#22d3ee] transition-colors duration-200">About</Link>
-          <Link to="/contact" className="text-sm font-medium text-[#94a3b8] hover:text-[#22d3ee] transition-colors duration-200">Contact</Link>
-          <Link to="/services" className="text-sm font-medium text-[#94a3b8] hover:text-[#22d3ee] transition-colors duration-200">Services</Link>
           <button onClick={logout} className='btnBlue !bg-gradient-to-r !from-red-500 !to-red-600 !shadow-red-500/30 !py-2 !px-4 !text-sm hover:!from-red-600 hover:!to-red-700'>Logout</button>
           <Avatar onClick={() => { toggleClass(".dropDownNavbar", "hidden") }} name={data ? data.name : ""} size="38" round="50%" className='cursor-pointer' />
         </div>
@@ -82,7 +80,7 @@ const Navbar = ({ isGridLayout, setIsGridLayout }) => {
         </button>
 
         {/* Desktop Dropdown */}
-        <div className='dropDownNavbar hidden absolute right-[1rem] sm:right-[2rem] lg:right-[5rem] top-[72px] shadow-2xl p-3 rounded-xl bg-[rgba(30,41,59,0.98)] backdrop-blur-xl border border-[rgba(148,163,184,0.1)] w-[200px] transition-all duration-300'>
+        <div className='dropDownNavbar hidden absolute right-[1rem] sm:right-[2rem] lg:right-[5rem] top-[72px] shadow-2xl p-3 rounded-xl bg-[rgba(30,41,59,0.98)] backdrop-blur-xl border border-[rgba(148,163,184,0.1)] w-[200px] transition-all duration-300' onMouseLeave={() => { toggleClass(".dropDownNavbar", "hidden") }}>
           <div className='py-3 border-b-[1.5px] border-b-[rgba(148,163,184,0.1)]'>
             <h3 className='text-base font-semibold' style={{ lineHeight: 1.3 }}>{data ? data.name : ""}</h3>
           </div>
@@ -102,11 +100,7 @@ const Navbar = ({ isGridLayout, setIsGridLayout }) => {
             onClick={(e) => e.stopPropagation()}
           >
             <div className='flex flex-col gap-4'>
-              <Link to="/" className="text-base font-medium text-[#94a3b8] hover:text-[#22d3ee] transition-colors py-2" onClick={() => setIsMobileMenuOpen(false)}>Home</Link>
-              <Link to="/about" className="text-base font-medium text-[#94a3b8] hover:text-[#22d3ee] transition-colors py-2" onClick={() => setIsMobileMenuOpen(false)}>About</Link>
-              <Link to="/contact" className="text-base font-medium text-[#94a3b8] hover:text-[#22d3ee] transition-colors py-2" onClick={() => setIsMobileMenuOpen(false)}>Contact</Link>
-              <Link to="/services" className="text-base font-medium text-[#94a3b8] hover:text-[#22d3ee] transition-colors py-2" onClick={() => setIsMobileMenuOpen(false)}>Services</Link>
-              <div className='border-t border-[rgba(148,163,184,0.1)] pt-4 mt-2'>
+              <div>
                 <div className='flex items-center gap-3 mb-4'>
                   <Avatar name={data ? data.name : ""} size="40" round="50%" />
                   <div>

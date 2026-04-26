@@ -194,7 +194,7 @@ router.post("/login", async (req, res) => {
 
     const isMatch = await bcrypt.compare(password, user.password); // ✅ promisified
     if (isMatch) {
-      let token = jwt.sign({ email: user.email, userId: user._id }, secret);
+      let token = jwt.sign({ email: user.email, userId: user._id }, secret, { expiresIn: '7d' });
       return res.json({ success: true, message: "User logged in successfully", token: token, userId: user._id });
     } else {
       return res.json({ success: false, message: "Invalid email or password" });
@@ -237,8 +237,17 @@ router.post("/createProject", async (req, res) => {
       return res.json({ success: false, message: "User not found!" });
     }
 
+    if (!title || title.trim() === "") {
+      return res.json({ success: false, message: "Project title cannot be empty" });
+    }
+
+    const existingProject = await projectModel.findOne({ title: title.trim(), createdBy: userId });
+    if (existingProject) {
+      return res.json({ success: false, message: "A project with this name already exists" });
+    }
+
     let project = await projectModel.create({
-      title: title,
+      title: title.trim(),
       createdBy: userId
     });
 
@@ -273,7 +282,7 @@ router.post("/deleteProject", async (req, res) => {
       return res.json({ success: false, message: "User not found!" });
     }
 
-    await projectModel.findOneAndDelete({ _id: progId });
+    await projectModel.findOneAndDelete({ _id: progId, createdBy: userId });
     return res.json({ success: true, message: "Project deleted successfully" });
   } catch (err) {
     return res.json({ success: false, message: "Server error", error: err.message });
@@ -289,7 +298,7 @@ router.post("/getProject", async (req, res) => {
       return res.json({ success: false, message: "User not found!" });
     }
 
-    let project = await projectModel.findOne({ _id: projId });
+    let project = await projectModel.findOne({ _id: projId, createdBy: userId });
     if (!project) {
       return res.json({ success: false, message: "Project not found!" });
     }
@@ -310,7 +319,7 @@ router.post("/updateProject", async (req, res) => {
     }
 
     let project = await projectModel.findOneAndUpdate(
-      { _id: projId },
+      { _id: projId, createdBy: userId },
       { htmlCode: htmlCode, cssCode: cssCode, jsCode: jsCode },
       { new: true }
     );

@@ -17,12 +17,12 @@ const Home = () => {
   const [isCreateModelShow, setIsCreateModelShow] = useState(false);
 
   // Filter data based on search query
-  const filteredData = data ? data.filter(item =>
-    item.title.toLowerCase().includes(searchQuery.toLowerCase()) // Case insensitive filtering
-  ) : [];
+  const filteredData = data === null ? null : data.filter(item =>
+    item.title.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   const createProj = (e) => {
-    if (projTitle === "") {
+    if (projTitle.trim() === "") {
       toast.error("Please enter project title");
     } else {
       fetch(api_base_url + "/createProject", {
@@ -32,7 +32,7 @@ const Home = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          title: projTitle,
+          title: projTitle.trim(),
           userId: localStorage.getItem("userId")
         })
       }).then(res => res.json()).then(data => {
@@ -67,6 +67,9 @@ const Home = () => {
       } else {
         setError(data.message);
       }
+    }).catch(err => {
+      setError("Failed to load projects. Please try again.");
+      console.error(err);
     });
   };
 
@@ -95,6 +98,8 @@ const Home = () => {
       else {
         setUserError(data.message);
       }
+    }).catch(err => {
+      console.error(err);
     })
   }, [])
 
@@ -129,7 +134,16 @@ const Home = () => {
 
       <div className="cards container-padding pb-12">
         {
-          isGridLayout ?
+          error ? (
+            <div className='flex flex-col items-center justify-center py-20'>
+              <p className='text-red-400 text-sm'>{error}</p>
+            </div>
+          ) : filteredData === null ? (
+            <div className='flex flex-col items-center justify-center py-20'>
+              <div className="spinner mx-auto mb-4"></div>
+              <p className="text-muted text-sm">Loading projects...</p>
+            </div>
+          ) : isGridLayout ?
             <div className='grid'>
               {
                 filteredData.length > 0 ? filteredData.map((item, index) => (

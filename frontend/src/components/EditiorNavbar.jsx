@@ -4,7 +4,7 @@ import { FiDownload } from "react-icons/fi";
 import { Link } from 'react-router-dom';
 
 
-const EditiorNavbar = ({ onDownload, onToggleView, showFrame }) => {
+const EditiorNavbar = ({ onDownload, onToggleView, showFrame, projectTitle }) => {
   return (
     <>
       <div className="EditiorNavbar flex items-center justify-between container-padding h-[72px] bg-[rgba(30,41,59,0.8)] backdrop-blur-xl border-b border-[rgba(148,163,184,0.1)] sticky top-0 z-50">
@@ -13,7 +13,7 @@ const EditiorNavbar = ({ onDownload, onToggleView, showFrame }) => {
             <Logo className="w-[120px] sm:w-[140px]" />
           </Link>
         </div>
-        <p className='hidden sm:block text-sm font-medium'><span className='text-[#64748b]'>Project /</span> <span className='text-[#e2e8f0]'>My first project</span></p>
+        <p className='hidden sm:block text-sm font-medium'><span className='text-[#64748b]'>Project /</span> <span className='text-[#e2e8f0]'>{projectTitle || 'Untitled'}</span></p>
         <div className="flex items-center gap-2">
           {onToggleView && (
             <button
